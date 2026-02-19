@@ -13,7 +13,7 @@ const router = express.Router();
 /** Redirect logged user to controler page */
 function guest_only(req, res, next) {
   if (req.session.user) {
-    res.redirect('/controller');
+    res.redirect('/controller/networks');
   } else {
     next();
   }
@@ -49,7 +49,7 @@ router.post('/login', async function(req, res) {
         req.session.user = user;
         req.session.success = 'Authenticated as ' + user.name;
         if (user.pass_set) {
-          res.redirect(req.query.redirect || '/controller');
+          res.redirect(req.query.redirect || '/controller/networks');
         } else {
           res.redirect('/users/' + user.name + '/password');
         }

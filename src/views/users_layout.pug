@@ -6,9 +6,8 @@
 extends head_layout
 
 block nav_items
-  +nav_item('controller_home', 'Home', '/controller')
-  +nav_item('users', 'Users', '/users')
   +nav_item('networks', 'Networks', '/controller/networks')
+  +nav_item('users', 'Users', '/users')
   +nav_item('create_user', 'Create user', '/users/create')
 
 block body_content

@@ -13,8 +13,8 @@ var networkController = require('../controllers/networkController');
 
 // network routes //
 
-// GET ZT network controller home page
-router.get('/', restrict, networkController.index);
+// Redirect /controller to networks list (home page removed)
+router.get('/', restrict, (req, res) => res.redirect('/controller/networks'));
 
 // Get request for creating a network
 router.get('/network/create', restrict, networkController.network_create_get);
