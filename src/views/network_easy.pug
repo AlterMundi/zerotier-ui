@@ -55,7 +55,9 @@ block net_content
     .alert.alert-info
       strong= message
 
-  form(method='POST' action='')
+  - const hasConfig = (network.routes && network.routes[0]) || (network.ipAssignmentPools && network.ipAssignmentPools[0])
+
+  form#easySetupForm(method='POST' action='')
     .form-group
       button.btn.btn-link.float-right(type='button' data-toggle='collapse' data-target='#help') Help
       .collapse(id='help')
@@ -78,7 +80,10 @@ block net_content
       input#poolEnd.form-control(type='text' name='poolEnd' placeholder='e.g. 10.11.12.254' value=(undefined===network.ipAssignmentPools[0]? '' : network.ipAssignmentPools[0].ipRangeEnd))
 
     .form-group(style='padding-top: 10px')
-      button.btn.btn-primary(type='submit') Submit
+      if hasConfig
+        button.btn.btn-primary(type='button' data-toggle='modal' data-target='#confirmOverwriteModal') Submit
+      else
+        button.btn.btn-primary(type='submit') Submit
       = ' '
       a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
 
@@ -86,3 +91,26 @@ block net_content
       ul
         for err in errors
           li!= err.msg
+
+  if hasConfig
+    #confirmOverwriteModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='confirmOverwriteLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button' data-dismiss='modal' aria-label='Close')
+              span(aria-hidden='true') &times;
+            h4#confirmOverwriteLabel.modal-title Warning: existing configuration will be overwritten
+          .modal-body
+            .alert.alert-danger
+              strong This will replace the current routes and IP assignment pool. This cannot be undone.
+            if network.routes && network.routes[0]
+              p
+                strong Current route:&nbsp;
+                code= network.routes[0].target
+            if network.ipAssignmentPools && network.ipAssignmentPools[0]
+              p
+                strong Current pool:&nbsp;
+                code= network.ipAssignmentPools[0].ipRangeStart + ' – ' + network.ipAssignmentPools[0].ipRangeEnd
+          .modal-footer
+            button.btn.btn-default(type='button' data-dismiss='modal') Cancel
+            button.btn.btn-danger(type='button' onclick='document.getElementById("easySetupForm").submit()') Overwrite
