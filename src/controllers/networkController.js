@@ -497,6 +497,34 @@ exports.dns = async function (req, res) {
   }
 }
 
+// ingressNodeV4 POST
+exports.ingressNodeV4 = async function (req, res) {
+  const navigate = {
+    active: 'networks',
+    whence: ''
+  };
+
+  const value = (req.body.ingressNodeV4 || '').trim();
+
+  // Validate: must be a valid IPv4 address or empty (to clear)
+  if (value !== '' && !new ipaddr.Address4(value).isValid()) {
+    return res.render('ingressNodeV4', {
+      title: 'ingressNodeV4',
+      navigate: navigate,
+      network: { nwid: req.params.nwid, ingressNodeV4: value },
+      errors: [{ msg: 'Invalid IPv4 address: ' + value }]
+    });
+  }
+
+  try {
+    const network = await zt.network_object(req.params.nwid, { ingressNodeV4: value || null });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('ingressNodeV4', {title: 'ingressNodeV4', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('ingressNodeV4', {title: 'ingressNodeV4', navigate: navigate, network: { nwid: req.params.nwid }, error: 'Error updating ingressNodeV4 for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
 // Display detail page for specific member
 exports.member_detail = async function(req, res) {
   const navigate =

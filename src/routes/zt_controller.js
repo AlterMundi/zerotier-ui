@@ -46,6 +46,9 @@ router.post('/network/:nwid/routes', restrict, networkController.routes);
 // POST request for dns
 router.post('/network/:nwid/dns', restrict, networkController.dns);
 
+// POST request for ingressNodeV4
+router.post('/network/:nwid/ingressNodeV4', restrict, networkController.ingressNodeV4);
+
 // POST request for private
 router.post('/network/:nwid/private', restrict, networkController.private);
 

@@ -1,0 +1,49 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  if (!network.ingressNodeV4)
+    .row
+      .col-sm-12
+        b No ingress node configured on this network.
+  else
+    .row
+      .col-sm-2
+        b Ingress Node (IPv4):
+      .col-sm-10
+        p= network.ingressNodeV4
+
+  .row
+    .col-sm-12
+      h3 Set Ingress Node:
+
+  .row
+    .col-sm-12
+      p
+        | The ingress node receives all inbound Internet traffic for the mesh
+        | and forwards it via ZeroTier. Set to the ZT IP of the border router.
+        | Leave empty to disable ingress routing.
+
+  form(method='POST' action='')
+    .form-group.row
+      .col-sm-12
+        label(for='ingressNodeV4') Ingress Node IPv4 Address:
+      .col-sm-12
+        input#ingressNodeV4.form-control(type='text' name='ingressNodeV4' value=(network.ingressNodeV4 || '') placeholder='e.g. 138.255.89.1 (leave empty to disable)')
+
+    .form-group.row
+      .col-sm-12
+        button.btn.btn-primary(type='submit') Submit
+        = ' '
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+
+  if errors
+    .row
+      .col-sm-12
+        ul
+          for err in errors
+            li!= err.msg
