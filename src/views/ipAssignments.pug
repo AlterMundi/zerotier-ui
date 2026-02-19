@@ -32,7 +32,7 @@ block net_content
           each ipAssignment, index in member.ipAssignments
             tr
               td(width='3%')
-                a.btn.btn-link(role='button' href='/controller/network/' + network.nwid + '/member/' + member.id + '/ipAssignments/' + index + '/delete')
+                a.btn.btn-link(role='button' href='/controller/network/' + network.nwid + '/member/' + member.id + '/ipAssignments/' + index + '/delete' onclick=`return confirm('Delete IP assignment ${ipAssignment}?')`)
                   i.glyphicon.glyphicon-trash
               td
                 each digit in ipAssignment
@@ -57,7 +57,7 @@ block net_content
             each route in network.routes
               tr
                 td(width='3%')
-                  a.btn.btn-link(role='button' href='/controller/network/' + network.nwid + '/routes/' + route.target + '/delete')
+                  a.btn.btn-link(role='button' href='/controller/network/' + network.nwid + '/routes/' + route.target + '/delete' onclick=`return confirm('Delete route ${route.target}?')`)
                     i.glyphicon.glyphicon-trash
                 td= route.target
                 td= route.via

@@ -16,7 +16,7 @@ block net_content
           each ipAssignmentPool in network.ipAssignmentPools
             tr
               td(width='3%')
-                a(href='/controller/network/' + network.nwid + '/ipAssignmentPools/' + ipAssignmentPool.ipRangeStart + '/' + ipAssignmentPool.ipRangeEnd + '/delete')
+                a(href='/controller/network/' + network.nwid + '/ipAssignmentPools/' + ipAssignmentPool.ipRangeStart + '/' + ipAssignmentPool.ipRangeEnd + '/delete' onclick=`return confirm('Delete pool ${ipAssignmentPool.ipRangeStart} – ${ipAssignmentPool.ipRangeEnd}?')`)
                   i.glyphicon.glyphicon-trash
               td= ipAssignmentPool.ipRangeStart
               td= ipAssignmentPool.ipRangeEnd

@@ -16,7 +16,7 @@ block net_content
           each route in network.routes
             tr
               td(width='3%')
-                a(href='/controller/network/' + network.nwid + '/routes/' + route.target + '/delete')
+                a(href='/controller/network/' + network.nwid + '/routes/' + route.target + '/delete' onclick=`return confirm('Delete route ${route.target}?')`)
                   i.glyphicon.glyphicon-trash
               td= route.target
               td= route.via
