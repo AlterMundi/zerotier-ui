@@ -152,10 +152,14 @@ block net_content
   a.btn.btn-default(href='' name='refresh' role='button') Refresh
 
   h3#detail Detail for network
+  - const implemented = new Set(['private','enableBroadcast','ssoEnabled','mtu','multicastLimit','remoteTraceLevel','authorizationEndpoint','clientId','remoteTraceTarget','rules','capabilities','tags','dns','routes','ipAssignmentPools','v4AssignMode','v6AssignMode','ingressNodeV4'])
   each value, key in network
     .row(style='margin: 5px 0;')
       .col-sm-2
-        a(href= network.nwid + '/' + key) #{key}:
+        if implemented.has(key)
+          a(href= network.nwid + '/' + key) #{key}:
+        else
+          span #{key}:
       .col-sm-10
         +json_value(value)
 
