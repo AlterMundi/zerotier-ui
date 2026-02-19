@@ -118,3 +118,37 @@ input[type=radio] {
   background-image: none;
 }
 
+/* Panel tables — flush against panel edges, no bottom margin */
+.zt-panel-table {
+  margin-bottom: 0 !important;
+  border-top: 0 !important;
+}
+
+/* Network properties key column */
+.zt-props-key {
+  vertical-align: top !important;
+  width: 190px;
+  padding-top: 9px !important;
+  font-size: 0.87em;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  color: #555;
+  white-space: nowrap;
+  background-color: #fafbfc;
+  border-right: 1px solid #e8e8e8 !important;
+}
+.zt-props-key a {
+  color: #315b80;
+  text-decoration: none;
+}
+.zt-props-key a:hover {
+  color: #1a3347;
+  text-decoration: underline;
+}
+.zt-props-key .glyphicon {
+  opacity: 0.45;
+}
+.zt-props-val {
+  vertical-align: top !important;
+  padding-top: 8px !important;
+}
+
