@@ -1,0 +1,31 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  .row
+    .col-sm-12
+      p SSO OIDC authorization endpoint URL. Requires ssoEnabled.
+
+  form(method='POST' action='')
+    .form-group.row
+      .col-sm-12
+        label(for='authorizationEndpoint') Authorization Endpoint:
+      .col-sm-12
+        input#authorizationEndpoint.form-control(type='text' name='authorizationEndpoint' value=(network.authorizationEndpoint || '') placeholder='https://...')
+
+    .form-group.row
+      .col-sm-12
+        button.btn.btn-primary(type='submit') Submit
+        = ' '
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+
+  if errors
+    .row
+      .col-sm-12
+        ul
+          for err in errors
+            li!= err.msg

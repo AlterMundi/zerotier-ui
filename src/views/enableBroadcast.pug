@@ -1,0 +1,26 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  script.
+    $(function() {
+      $('.checkbox').on('click', function() {
+        $.post('', {'enableBroadcast': $('#enableBroadcastCheckBox').is(':checked')});
+      });
+    });
+
+  form(method='POST' action='')
+    table.table.table-responsive.table-striped.table-hover
+      tr
+        td(width='3%')
+          input#enableBroadcastCheckBox.checkbox(type='checkbox' checked=(network.enableBroadcast ? true : false))
+        td Enable broadcast (ff:ff:ff:ff:ff:ff) packets on this network.
+
+  if errors
+    ul
+      for err in errors
+        li!= err.msg

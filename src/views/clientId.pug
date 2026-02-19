@@ -1,0 +1,31 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  .row
+    .col-sm-12
+      p SSO OIDC client ID. Requires ssoEnabled.
+
+  form(method='POST' action='')
+    .form-group.row
+      .col-sm-12
+        label(for='clientId') Client ID:
+      .col-sm-12
+        input#clientId.form-control(type='text' name='clientId' value=(network.clientId || ''))
+
+    .form-group.row
+      .col-sm-12
+        button.btn.btn-primary(type='submit') Submit
+        = ' '
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+
+  if errors
+    .row
+      .col-sm-12
+        ul
+          for err in errors
+            li!= err.msg

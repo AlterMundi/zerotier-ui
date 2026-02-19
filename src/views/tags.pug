@@ -1,0 +1,15 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  .row
+    .col-sm-12
+      pre.pre-scrollable= JSON.stringify(network.tags, null, 2)
+
+  .row
+    .col-sm-12
+      a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel

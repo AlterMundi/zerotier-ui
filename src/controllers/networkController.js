@@ -497,6 +497,144 @@ exports.dns = async function (req, res) {
   }
 }
 
+// enableBroadcast POST
+exports.enableBroadcast = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  try {
+    const network = await zt.network_object(req.params.nwid, { enableBroadcast: req.body.enableBroadcast });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('enableBroadcast', {title: 'enableBroadcast', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('enableBroadcast', {title: 'enableBroadcast', navigate: navigate, error: 'Error applying enableBroadcast for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// ssoEnabled POST
+exports.ssoEnabled = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  try {
+    const network = await zt.network_object(req.params.nwid, { ssoEnabled: req.body.ssoEnabled });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('ssoEnabled', {title: 'ssoEnabled', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('ssoEnabled', {title: 'ssoEnabled', navigate: navigate, error: 'Error applying ssoEnabled for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// mtu POST
+exports.mtu = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  const val = parseInt(req.body.mtu, 10);
+  if (isNaN(val) || val < 1280 || val > 10000) {
+    try {
+      const network = await zt.network_detail(req.params.nwid);
+      navigate.whence = '/controller/network/' + network.nwid;
+      return res.render('mtu', {title: 'mtu', navigate: navigate, network: network, errors: [{msg: 'MTU must be between 1280 and 10000'}]});
+    } catch (err) {
+      return res.render('mtu', {title: 'mtu', navigate: navigate, error: 'Error resolving network ' + req.params.nwid + ': ' + err});
+    }
+  }
+  try {
+    const network = await zt.network_object(req.params.nwid, { mtu: val });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('mtu', {title: 'mtu', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('mtu', {title: 'mtu', navigate: navigate, error: 'Error applying mtu for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// multicastLimit POST
+exports.multicastLimit = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  const val = parseInt(req.body.multicastLimit, 10);
+  if (isNaN(val) || val < 0 || val > 1024) {
+    try {
+      const network = await zt.network_detail(req.params.nwid);
+      navigate.whence = '/controller/network/' + network.nwid;
+      return res.render('multicastLimit', {title: 'multicastLimit', navigate: navigate, network: network, errors: [{msg: 'Multicast limit must be between 0 and 1024'}]});
+    } catch (err) {
+      return res.render('multicastLimit', {title: 'multicastLimit', navigate: navigate, error: 'Error resolving network ' + req.params.nwid + ': ' + err});
+    }
+  }
+  try {
+    const network = await zt.network_object(req.params.nwid, { multicastLimit: val });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('multicastLimit', {title: 'multicastLimit', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('multicastLimit', {title: 'multicastLimit', navigate: navigate, error: 'Error applying multicastLimit for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// remoteTraceLevel POST
+exports.remoteTraceLevel = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  const val = parseInt(req.body.remoteTraceLevel, 10);
+  if (isNaN(val) || val < 0 || val > 6) {
+    try {
+      const network = await zt.network_detail(req.params.nwid);
+      navigate.whence = '/controller/network/' + network.nwid;
+      return res.render('remoteTraceLevel', {title: 'remoteTraceLevel', navigate: navigate, network: network, errors: [{msg: 'Remote trace level must be between 0 and 6'}]});
+    } catch (err) {
+      return res.render('remoteTraceLevel', {title: 'remoteTraceLevel', navigate: navigate, error: 'Error resolving network ' + req.params.nwid + ': ' + err});
+    }
+  }
+  try {
+    const network = await zt.network_object(req.params.nwid, { remoteTraceLevel: val });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('remoteTraceLevel', {title: 'remoteTraceLevel', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('remoteTraceLevel', {title: 'remoteTraceLevel', navigate: navigate, error: 'Error applying remoteTraceLevel for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// authorizationEndpoint POST
+exports.authorizationEndpoint = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  const value = (req.body.authorizationEndpoint || '').trim();
+  try {
+    const network = await zt.network_object(req.params.nwid, { authorizationEndpoint: value || null });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('authorizationEndpoint', {title: 'authorizationEndpoint', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('authorizationEndpoint', {title: 'authorizationEndpoint', navigate: navigate, error: 'Error applying authorizationEndpoint for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// clientId POST
+exports.clientId = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  const value = (req.body.clientId || '').trim();
+  try {
+    const network = await zt.network_object(req.params.nwid, { clientId: value || null });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('clientId', {title: 'clientId', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('clientId', {title: 'clientId', navigate: navigate, error: 'Error applying clientId for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
+// remoteTraceTarget POST
+exports.remoteTraceTarget = async function (req, res) {
+  const navigate = { active: 'networks', whence: '' };
+  const value = (req.body.remoteTraceTarget || '').trim().toLowerCase();
+  if (value !== '' && !/^[0-9a-f]{10}$/.test(value)) {
+    try {
+      const network = await zt.network_detail(req.params.nwid);
+      navigate.whence = '/controller/network/' + network.nwid;
+      return res.render('remoteTraceTarget', {title: 'remoteTraceTarget', navigate: navigate, network: network, errors: [{msg: 'Remote trace target must be a 10-character hexadecimal ZeroTier node address, or empty to disable'}]});
+    } catch (err) {
+      return res.render('remoteTraceTarget', {title: 'remoteTraceTarget', navigate: navigate, error: 'Error resolving network ' + req.params.nwid + ': ' + err});
+    }
+  }
+  try {
+    const network = await zt.network_object(req.params.nwid, { remoteTraceTarget: value || null });
+    navigate.whence = '/controller/network/' + network.nwid;
+    res.render('remoteTraceTarget', {title: 'remoteTraceTarget', navigate: navigate, network: network});
+  } catch (err) {
+    res.render('remoteTraceTarget', {title: 'remoteTraceTarget', navigate: navigate, error: 'Error applying remoteTraceTarget for network ' + req.params.nwid + ': ' + err});
+  }
+}
+
 // ingressNodeV4 POST
 exports.ingressNodeV4 = async function (req, res) {
   const navigate = {

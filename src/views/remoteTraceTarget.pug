@@ -1,0 +1,33 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  .row
+    .col-sm-12
+      p
+        b Current remote trace target:
+        |  #{network.remoteTraceTarget || '(none)'}
+
+  form(method='POST' action='')
+    .form-group.row
+      .col-sm-12
+        label(for='remoteTraceTarget') Remote Trace Target:
+      .col-sm-12
+        input#remoteTraceTarget.form-control(type='text' name='remoteTraceTarget' value=(network.remoteTraceTarget || '') placeholder='10-character ZeroTier node address (empty to disable)')
+
+    .form-group.row
+      .col-sm-12
+        button.btn.btn-primary(type='submit') Submit
+        = ' '
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+
+  if errors
+    .row
+      .col-sm-12
+        ul
+          for err in errors
+            li!= err.msg

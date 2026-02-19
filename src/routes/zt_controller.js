@@ -49,6 +49,30 @@ router.post('/network/:nwid/dns', restrict, networkController.dns);
 // POST request for ingressNodeV4
 router.post('/network/:nwid/ingressNodeV4', restrict, networkController.ingressNodeV4);
 
+// POST request for enableBroadcast
+router.post('/network/:nwid/enableBroadcast', restrict, networkController.enableBroadcast);
+
+// POST request for ssoEnabled
+router.post('/network/:nwid/ssoEnabled', restrict, networkController.ssoEnabled);
+
+// POST request for mtu
+router.post('/network/:nwid/mtu', restrict, networkController.mtu);
+
+// POST request for multicastLimit
+router.post('/network/:nwid/multicastLimit', restrict, networkController.multicastLimit);
+
+// POST request for remoteTraceLevel
+router.post('/network/:nwid/remoteTraceLevel', restrict, networkController.remoteTraceLevel);
+
+// POST request for authorizationEndpoint
+router.post('/network/:nwid/authorizationEndpoint', restrict, networkController.authorizationEndpoint);
+
+// POST request for clientId
+router.post('/network/:nwid/clientId', restrict, networkController.clientId);
+
+// POST request for remoteTraceTarget
+router.post('/network/:nwid/remoteTraceTarget', restrict, networkController.remoteTraceTarget);
+
 // POST request for private
 router.post('/network/:nwid/private', restrict, networkController.private);
 

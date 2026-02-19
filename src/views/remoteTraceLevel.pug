@@ -1,0 +1,37 @@
+//-
+  ztncui - ZeroTier network controller UI
+  Copyright (C) 2017-2021  Key Networks (https://key-networks.com)
+  Licensed under GPLv3 - see LICENSE for details.
+
+extends network_layout
+
+block net_content
+  .row
+    .col-sm-12
+      p
+        b Current remote trace level:
+        |  #{network.remoteTraceLevel}
+
+  .row
+    .col-sm-12
+      p Remote trace verbosity (0 = off, 6 = maximum).
+
+  form(method='POST' action='')
+    .form-group.row
+      .col-sm-12
+        label(for='remoteTraceLevel') Remote Trace Level:
+      .col-sm-12
+        input#remoteTraceLevel.form-control(type='number' name='remoteTraceLevel' min='0' max='6' step='1' value=(network.remoteTraceLevel !== undefined ? network.remoteTraceLevel : 0))
+
+    .form-group.row
+      .col-sm-12
+        button.btn.btn-primary(type='submit') Submit
+        = ' '
+        a.btn.btn-default(href=('/controller/network/' + network.nwid) name='cancel' role='button') Cancel
+
+  if errors
+    .row
+      .col-sm-12
+        ul
+          for err in errors
+            li!= err.msg
