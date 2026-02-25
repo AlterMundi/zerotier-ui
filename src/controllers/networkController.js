@@ -658,7 +658,8 @@ exports.members = async function(req, res) {
         try {
           const mem = await zt.member_object(req.params.nwid, req.body.id, auth);
         } catch (err) {
-          throw err;
+          console.error('Error setting member auth:', err);
+          return res.status(500).json({ error: err.message });
         }
       }
     } else if (req.body.activeBridge) {
@@ -677,10 +678,11 @@ exports.members = async function(req, res) {
         try {
           const mem = await zt.member_object(req.params.nwid, req.body.id, activeBridge);
         } catch (err) {
-          throw err;
+          console.error('Error setting member activeBridge:', err);
+          return res.status(500).json({ error: err.message });
         }
       }
-    } else if (req.body.name) {
+    } else if (req.body.name !== undefined) {
       req.sanitize('name').trim();
       req.sanitize('name').escape();
 
@@ -688,12 +690,15 @@ exports.members = async function(req, res) {
 
       if (!errors) {
         try {
-          const ret = await storage.setItem(req.body.id, req.body.name);
+          await storage.setItem(req.body.id, req.body.name);
+          return res.json({ ok: true });
         } catch (err) {
-          throw err;
+          console.error('Error saving member name:', err);
+          return res.status(500).json({ error: err.message });
         }
       }
     }
+    return res.json({ ok: true });
   } else { // GET
     res.redirect("/controller/network/" + req.params.nwid + "#members");
   }
